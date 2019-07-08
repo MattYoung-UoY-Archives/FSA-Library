@@ -1,12 +1,13 @@
 package mjy.fsa;
 
-@FunctionalInterface
 /**
- * @author Matt
- *
  * Used to execute an action when transitioning between states.
+ * 
+ * @since 07/07/2019
+ * @author Matt
  */
-public interface TrasitionFunction {
+@FunctionalInterface
+public interface TransitionFunction {
 
 	/**
 	 * Used to implement the transition function between states.
