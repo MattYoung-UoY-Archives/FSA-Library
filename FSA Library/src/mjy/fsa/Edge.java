@@ -4,10 +4,10 @@ package mjy.fsa;
  * Represents an edge to a state using a given transition function and consuming 
  * a given character.
  * 
- * @since 08/07/2019
- * @author Matt
+ * @since 09/07/2019
+ * @author Matt Young
  */
-public abstract class Edge {
+public class Edge {
 
 	/**
 	 * The symbol consumed when transitioning to the next state.
@@ -17,18 +17,22 @@ public abstract class Edge {
 	 * The transition function to execute during the transition between states.
 	 */
 	private TransitionFunction transition;
-	//To be added when the State class is implemented
-	//private State NextState;
+	/**
+	 * The next state to transition to.
+	 */
+	private State nextState;
 	
 	/**
 	 * Creates a new edge that consumes the given symbol and executes the given 
 	 * transition function during the transition between states.
 	 * @param transitionSymbol The symbol to consume.
 	 * @param transition The transition function to execute.
+	 * @param nextState The next state to transition to.
 	 */
-	public Edge(char transitionSymbol, TransitionFunction transition) {
+	public Edge(char transitionSymbol, TransitionFunction transition, State nextState) {
 		this.transitionSymbol = transitionSymbol;
 		this.transition = transition;
+		this.nextState = nextState;
 	}
 
 	/**
@@ -43,6 +47,18 @@ public abstract class Edge {
 	 */
 	protected TransitionFunction getTransition() {
 		return transition;
+	}
+
+	/**
+	 * @return The next state to transition to.
+	 */
+	protected State getNextState() {
+		return nextState;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + transitionSymbol + ", " + nextState.getLabel() + ")";
 	}
 	
 }

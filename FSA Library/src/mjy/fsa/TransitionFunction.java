@@ -4,7 +4,7 @@ package mjy.fsa;
  * Used to execute an action when transitioning between states.
  * 
  * @since 07/07/2019
- * @author Matt
+ * @author Matt Young
  */
 @FunctionalInterface
 public interface TransitionFunction {
