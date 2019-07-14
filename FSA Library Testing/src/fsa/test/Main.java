@@ -21,9 +21,12 @@ public class Main {
 		Edge[] dfa1q1edges = {new Edge('a', () -> {}, dfa1_q0init)};
 		dfa1.addEdges(dfa1_q1, dfa1q1edges);
 		
-		//Need to test adding edge to state not in FSA
-		
 		System.out.println(dfa1);
+		
+		Edge[] faultyEdgesQ1 = {new Edge('a', () -> {}, new State("q2", false))};
+		
+		//dfa1.addEdges(dfa1_q1, faultyEdgesQ1);
+		dfa1.addEdges(new State("q3", true),  dfa1q0edges);
 		
 	}
 	
