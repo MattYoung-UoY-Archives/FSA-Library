@@ -1,5 +1,6 @@
 package mjy.fsa;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import mjy.fsa.exceptions.InvalidStructureException;
 /**
  * This is the template class for a FSA.
  * 
- * @since 14/07/2019
+ * @since 10/08/2019
  * @author Matt Young
  */
 abstract class FSA {
@@ -49,17 +50,18 @@ abstract class FSA {
 	}
 
 	/**
-	 * Adds the edges to the state.
-	 * @param state State to add the edges to.
-	 * @param edges Edges to add to the state.
-	 * @throws InvalidStateException if the state is not contained in the FSA or an edge leads to a state not in the DFA.
+	 * Sets the state's edges.
+	 * @param state State to set the edges to.
+	 * @param edges Edges to set.
+	 * @throws InvalidStateException if the state is not contained in the FSA or an edge leads to a state not in the FSA.
+	 * @throws IllegalArgumentException if the FSA should be deterministic, and adding the edges to the state would cause non-determinism.
 	 */
-	public void addEdges(State state, Edge[] edges) {
+	public void setEdges(State state, Edge[] edges) {
 		try {
 			List<State> temp = Arrays.asList(states);
 			int index = temp.indexOf(state);
 			if (index < 0)
-				throw new InvalidStateException("State (" + state + ") not in the FSA " + label + "!");
+				throw new InvalidStateException("State (" + state + ") not in the FSA " + label + "!\n" + this);
 			for (Edge edge : edges) {
 				if (!(Arrays.asList(states).contains(edge.getNextState()))) {
 					throw new InvalidStateException(
@@ -69,7 +71,6 @@ abstract class FSA {
 			states[index].setOutgoingEdges(edges);
 		} catch (InvalidStateException e) {
 			e.printStackTrace();
-			System.out.println(this);
 			System.exit(1);
 		}
 	}
@@ -79,4 +80,19 @@ abstract class FSA {
 		return "FSA: " + label + "\nInitial State: " + initialState + "\nStates: " + Arrays.toString(states);
 	}
 
+	/**
+	 * Tests if the edges will cause non-determinism.
+	 * @param edges Edges to test.
+	 * @return True if these edges will cause non-determinism.
+	 */
+	protected static boolean causesNonDeterminism(Edge[] edges) {
+		List<Character> symbols;
+			symbols = new ArrayList<Character>();
+			for(Edge edge: edges) {
+				if(symbols.contains(edge.getTransitionSymbol())) return true;
+				symbols.add(edge.getTransitionSymbol());
+			}
+		return false;
+	}
+	
 }
